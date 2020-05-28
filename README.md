@@ -5,7 +5,7 @@
 
 # routerify-websocket
 
-The `websocket` support for the [Routerify](https://github.com/routerify/routerify) library.
+The `WebSocket` support for the [Routerify](https://github.com/routerify/routerify) library.
 
 [Docs](https://docs.rs/routerify-websocket)
 

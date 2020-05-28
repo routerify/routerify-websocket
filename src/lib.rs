@@ -1,4 +1,4 @@
-//! The `websocket` support for the [Routerify](https://github.com/routerify/routerify) library.
+//! The `WebSocket` support for the [Routerify](https://github.com/routerify/routerify) library.
 //!
 //! # Examples
 //!
