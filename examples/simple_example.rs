@@ -1,27 +1,3 @@
-[![Github Actions Status](https://github.com/routerify/routerify-websocket/workflows/Test/badge.svg)](https://github.com/routerify/routerify-websocket/actions)
-[![crates.io](https://img.shields.io/crates/v/routerify-websocket.svg)](https://crates.io/crates/routerify-websocket)
-[![Documentation](https://docs.rs/routerify-websocket/badge.svg)](https://docs.rs/routerify-websocket)
-[![MIT](https://img.shields.io/crates/l/routerify-websocket.svg)](./LICENSE)
-
-# routerify-websocket
-
-The `WebSocket` support for the [Routerify](https://github.com/routerify/routerify) library.
-
-[Docs](https://docs.rs/routerify-websocket)
-
-## Install
-
-Add this to your `Cargo.toml` file:
-
-```toml
-[dependencies]
-routerify = "1.1"
-routerify-websocket = "1.0"
-```
-
-## Example
- 
-```rust
 // Import `SinkExt` and `StreamExt` to send and read websocket messages.
 use futures::{SinkExt, StreamExt};
 use hyper::{Body, Response, Server};
@@ -34,8 +10,7 @@ use std::{convert::Infallible, net::SocketAddr};
 async fn ws_handler(ws: WebSocket) {
     println!("New websocket connection: {}", ws.remote_addr());
 
-    // The `WebSocket` implements the `Sink` and `Stream` traits
-    // to read and write messages.
+    // The `WebSocket` implements the `Sink` and `Stream` traits to read and write messages.
     let (mut tx, mut rx) = ws.split();
 
     // Read messages.
@@ -86,8 +61,3 @@ async fn main() {
         eprintln!("Server error: {}", err);
     }
 }
-```
-
-## Contributing
-
-Your PRs and suggestions are always welcome.
