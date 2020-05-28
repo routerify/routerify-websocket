@@ -20,7 +20,7 @@ routerify-websocket = "1.0"
 ```
 
 ## Example
-
+ 
 ```rust
 // Import `SinkExt` and `StreamExt` to send and read websocket messages.
 use futures::{SinkExt, StreamExt};
