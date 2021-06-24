@@ -45,5 +45,6 @@ Cargo.lock
 .halt.releez.yml
 .idea
 routerify-websocket.iml
+.vscode/
 
 # End of https://www.gitignore.io/api/rust,macos

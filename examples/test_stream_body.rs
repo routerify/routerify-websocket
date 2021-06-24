@@ -1,15 +1,15 @@
-use futures::{Sink, SinkExt, StreamExt};
-use hyper::{Request, Response, Server};
+use futures::StreamExt;
+use hyper::{Response, Server};
 use routerify::{Router, RouterService};
 use routerify_websocket::{upgrade_ws, WebSocket};
 use std::{convert::Infallible, net::SocketAddr};
 use stream_body::StreamBody;
-use tokio::prelude::*;
+use tokio;
 
 async fn ws_handler(ws: WebSocket) {
     println!("new websocket connection: {}", ws.remote_addr());
 
-    let (mut tx, mut rx) = ws.split();
+    let (_tx, mut rx) = ws.split();
 
     while let Some(msg) = rx.next().await {
         let msg = msg.unwrap();
