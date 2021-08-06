@@ -59,7 +59,7 @@ pub fn upgrade_ws_with_config<H, R, B, E>(
     config: WebSocketConfig,
 ) -> impl Fn(Request<hyper::Body>) -> Ready<Result<Response<B>, E>> + Send + 'static
 where
-    H: Fn(WebSocket) -> R + Copy + Send + Sync + 'static,
+    H: Fn(WebSocket) -> R + Clone + Send + Sync + 'static,
     R: Future<Output = ()> + Send + 'static,
     B: From<&'static str> + HttpBody + Send + 'static,
     E: std::error::Error + Send + 'static,
@@ -74,7 +74,7 @@ where
                 .body("BAD REQUEST: The request is not websocket".into())
                 .unwrap());
         }
-
+        let handler = handler.clone();
         tokio::spawn(async move {
             match hyper::upgrade::on(req).await {
                 Ok(upgraded) => {
@@ -148,7 +148,7 @@ pub fn upgrade_ws<H, R, B, E>(
     handler: H,
 ) -> impl Fn(Request<hyper::Body>) -> Ready<Result<Response<B>, E>> + Send +  'static
 where
-    H: Fn(WebSocket) -> R + Copy + Send + Sync + 'static,
+    H: Fn(WebSocket) -> R + Clone + Send + Sync + 'static,
     R: Future<Output = ()> + Send + 'static,
     B: From<&'static str> + HttpBody + Send + 'static,
     E: std::error::Error + Send + 'static,
