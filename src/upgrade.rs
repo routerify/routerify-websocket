@@ -57,7 +57,7 @@ use std::future::Future;
 pub fn upgrade_ws_with_config<H, R, B, E>(
     handler: H,
     config: WebSocketConfig,
-) -> impl FnMut(Request<hyper::Body>) -> Ready<Result<Response<B>, E>> + Send + Sync + 'static
+) -> impl Fn(Request<hyper::Body>) -> Ready<Result<Response<B>, E>> + Send + Sync + 'static
 where
     H: Fn(WebSocket) -> R + Copy + Send + Sync + 'static,
     R: Future<Output = ()> + Send + 'static,
@@ -76,7 +76,7 @@ where
         }
 
         tokio::spawn(async move {
-            match req.into_body().on_upgrade().await {
+            match hyper::upgrade::on(req).await {
                 Ok(upgraded) => {
                     handler(WebSocket::from_raw_socket(upgraded, remote_addr, config).await).await;
                 }
@@ -146,7 +146,7 @@ where
 /// ```
 pub fn upgrade_ws<H, R, B, E>(
     handler: H,
-) -> impl FnMut(Request<hyper::Body>) -> Ready<Result<Response<B>, E>> + Send + Sync + 'static
+) -> impl Fn(Request<hyper::Body>) -> Ready<Result<Response<B>, E>> + Send + Sync + 'static
 where
     H: Fn(WebSocket) -> R + Copy + Send + Sync + 'static,
     R: Future<Output = ()> + Send + 'static,

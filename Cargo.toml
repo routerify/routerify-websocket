@@ -25,18 +25,17 @@ json = ["serde", "serde_json"]
 [dependencies]
 log = "0.4"
 derive_more = "0.99"
-routerify = "1.1"
-hyper = "0.13"
+routerify = "3.0"
+hyper = "0.14"
 headers = "0.3"
-tokio-tungstenite = { version = "0.10", default-features = false }
+tokio-tungstenite = { version = "0.16", default-features = false }
 futures = { version = "0.3", default-features = false }
-tokio = { version = "0.2", features = ["rt-core"] }
+tokio = { version = "1.0", features = ["rt"] }
 
 serde = { version = "1.0", optional = true }
 serde_json = { version = "1.0", optional = true }
 
 [dev-dependencies]
-tokio = { version = "0.2", features = ["full"] }
-stream-body = "0.1"
+tokio = { version = "1.0", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
-tokio-tungstenite = { version = "0.10", features = ["tls"] }
+tokio-tungstenite = { version = "0.16" }
