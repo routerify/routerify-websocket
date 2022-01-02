@@ -15,8 +15,8 @@ Add this to your `Cargo.toml` file:
 
 ```toml
 [dependencies]
-routerify = "1.1"
-routerify-websocket = "1.0"
+routerify = "3"
+routerify-websocket = "3"
 ```
 
 ## Example

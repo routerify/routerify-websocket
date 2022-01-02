@@ -1,14 +1,11 @@
-use futures::{Sink, SinkExt, StreamExt};
+use futures::{SinkExt, StreamExt};
 use hyper::{Body, Request, Response, Server};
 use routerify::prelude::*;
 use routerify::{Middleware, Router, RouterService};
-use routerify_websocket::{upgrade_ws, upgrade_ws_with_config, Message, WebSocket, WebSocketConfig};
+use routerify_websocket::{upgrade_ws, WebSocket};
 use serde::{Deserialize, Serialize};
 use std::{convert::Infallible, net::SocketAddr};
-use tokio_tungstenite::{
-    tungstenite::protocol::{frame::coding::CloseCode, CloseFrame, Message as ClientMessage},
-    WebSocketStream,
-};
+use tokio_tungstenite::tungstenite::protocol::Message as ClientMessage;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct User {
@@ -19,7 +16,7 @@ struct User {
 async fn ws_handler(ws: WebSocket) {
     println!("new websocket connection: {}", ws.remote_addr());
 
-    let (mut tx, mut rx) = ws.split();
+    let (_tx, mut rx) = ws.split();
 
     while let Some(msg) = rx.next().await {
         let msg = msg.unwrap();
@@ -60,7 +57,7 @@ async fn main() {
     let server = Server::bind(&addr).serve(service);
 
     tokio::spawn(async move {
-        tokio::time::delay_for(tokio::time::Duration::from_secs(3)).await;
+        tokio::time::sleep(tokio::time::Duration::from_secs(3)).await;
 
         let (mut ws, resp) = tokio_tungstenite::connect_async("ws://127.0.0.1:3001/ws")
             .await
@@ -73,7 +70,7 @@ async fn main() {
 
         ws.close(None).await.unwrap();
 
-        tokio::time::delay_for(tokio::time::Duration::from_secs(3)).await;
+        tokio::time::sleep(tokio::time::Duration::from_secs(3)).await;
     });
 
     println!("App is running on: {}", addr);
